@@ -14,7 +14,7 @@ namespace test_AndroidXamarinApp
     public class MainActivity : Activity
     {
         int count = 1;
-
+        Bussiness.SimpleAndroidTTS SimpleTTS;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -22,18 +22,38 @@ namespace test_AndroidXamarinApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Get our button from the layout resource,
-            // and attach an event to it
-            //Button button = FindViewById<Button>(Resource.Id.MyButton);
-    
-            //button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+            //init assets
+            var button_speak = FindViewById<Button>(Resource.Id.button_tts_speak);
+            var edittext_tts_source = FindViewById<EditText>(Resource.Id.editText_tts_source_talk);
+            var spinner_tts_lang_list = FindViewById<Spinner>(Resource.Id.spinner_tts_lang_list);
 
-            //get available voices
-            
-            // Bussiness.PhoneTTS PhoneVoice = new Bussiness.PhoneTTS(this, x);
-            ListView TtsList = FindViewById<ListView>(Resource.Id.listView_tts_available);
-            
-            
+            //initialize tts
+            SimpleTTS = new Bussiness.SimpleAndroidTTS(this);
+            spinner_tts_lang_list.Adapter = SimpleTTS.GetLanguagesAdapter();
+
+            //add set language
+            spinner_tts_lang_list.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
+            {
+                SimpleTTS.SetLanguage(sender, e);
+            };
+
+            //add functionality to speak button
+            button_speak.Click += delegate { SimpleTTS.Speak(edittext_tts_source.Text); };
+
+        }
+
+        
+
+        private readonly int MyCheckCode = 101, NeedLang = 103;
+        protected override void OnActivityResult(int req, Result res, Intent data)
+        {
+            if (req == NeedLang)
+            {
+                // we need a new language installed
+                var installTTS = new Intent();
+                installTTS.SetAction(TextToSpeech.Engine.ActionInstallTtsData);
+                StartActivity(installTTS);
+            }
         }
     }
 }

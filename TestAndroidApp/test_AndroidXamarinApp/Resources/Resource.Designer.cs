@@ -69,7 +69,7 @@ namespace test_AndroidXamarinApp
 			public const int editText_tts_source_talk = 2131034112;
 			
 			// aapt resource value: 0x7f050002
-			public const int listView_tts_available = 2131034114;
+			public const int spinner_tts_lang_list = 2131034114;
 			
 			static Id()
 			{
