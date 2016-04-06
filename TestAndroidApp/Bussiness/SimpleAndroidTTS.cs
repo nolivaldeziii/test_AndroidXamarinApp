@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using Android.Runtime;
 
+using Java.Lang;
+
 //required for activity class
 using Android.App;
 
@@ -32,13 +34,15 @@ namespace Bussiness
 
         public SimpleAndroidTTS(Activity a)
         {
+            //we'll set the context as the activity that calls this class
+            Caller = a;
+            SetContext(Caller);
+
             // set up the TextToSpeech object
             // third parameter is the speech engine to use
             textToSpeech = new TextToSpeech(context, this, "com.google.android.tts");
 
-            //we'll set the context as the activity that calls this class
-            Caller = a;
-            SetContext(Caller);
+            
 
             // set up the speech to use the default langauge
             // if a language is not available, then the default language is used.
