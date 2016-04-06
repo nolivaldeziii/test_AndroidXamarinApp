@@ -17,6 +17,7 @@ using Android.App;
 //Text to speech essentials
 using Android.Speech.Tts;
 using Android.Content;
+using Java.Util;
 
 //library for array adapter
 using Android.Widget;
@@ -102,7 +103,7 @@ namespace Bussiness
             var langAvailable = new List<string> { "Default" };
 
             // our spinner only wants to contain the languages supported by the tts and ignore the rest
-            var localesAvailable = Java.Util.Locale.GetAvailableLocales().ToList();
+            var localesAvailable = Locale.GetAvailableLocales().ToList();
             foreach (var locale in localesAvailable)
             {
                 LanguageAvailableResult res = textToSpeech.IsLanguageAvailable(locale);
