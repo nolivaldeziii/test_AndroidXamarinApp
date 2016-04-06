@@ -26,6 +26,8 @@ namespace test_AndroidXamarinApp
 		
 		public static void UpdateIdValues()
 		{
+			global::Bussiness.Resource.String.ApplicationName = global::test_AndroidXamarinApp.Resource.String.ApplicationName;
+			global::Bussiness.Resource.String.Hello = global::test_AndroidXamarinApp.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -60,8 +62,14 @@ namespace test_AndroidXamarinApp
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050001
+			public const int button_tts_speak = 2131034113;
+			
 			// aapt resource value: 0x7f050000
-			public const int MyButton = 2131034112;
+			public const int editText_tts_source_talk = 2131034112;
+			
+			// aapt resource value: 0x7f050002
+			public const int spinner_tts_lang_list = 2131034114;
 			
 			static Id()
 			{
@@ -97,6 +105,9 @@ namespace test_AndroidXamarinApp
 			
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int tts_talk = 2130968578;
 			
 			static String()
 			{
