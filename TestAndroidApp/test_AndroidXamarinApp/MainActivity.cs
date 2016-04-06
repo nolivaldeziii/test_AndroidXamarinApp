@@ -6,6 +6,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
+using Android.Speech.Tts;
+
 namespace test_AndroidXamarinApp
 {
     [Activity(Label = "test_AndroidXamarinApp", MainLauncher = true, Icon = "@drawable/icon")]
@@ -22,9 +24,16 @@ namespace test_AndroidXamarinApp
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.MyButton);
+            //Button button = FindViewById<Button>(Resource.Id.MyButton);
+    
+            //button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
 
-            button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+            //get available voices
+            
+            // Bussiness.PhoneTTS PhoneVoice = new Bussiness.PhoneTTS(this, x);
+            ListView TtsList = FindViewById<ListView>(Resource.Id.listView_tts_available);
+            
+            
         }
     }
 }
