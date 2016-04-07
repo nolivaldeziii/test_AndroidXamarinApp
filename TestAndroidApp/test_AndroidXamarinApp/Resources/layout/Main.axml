@@ -17,4 +17,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner_tts_lang_list"
         android:layout_marginBottom="3.0dp" />
+    <Button
+        android:text="Force Japanese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_tts_force" />
 </LinearLayout>
