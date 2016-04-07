@@ -17,6 +17,7 @@ using Android.App;
 //Text to speech essentials
 using Android.Speech.Tts;
 using Android.Content;
+using Java.Util;
 
 //library for array adapter
 using Android.Widget;
@@ -30,6 +31,8 @@ namespace Bussiness
         private readonly int MyCheckCode = 101, NeedLang = 103;
         Java.Util.Locale lang;
 
+        List<string> AvailableLanguage;
+
         Activity Caller;//we'll usually set this as the one that calls this class;
 
         public SimpleAndroidTTS(Activity a)
@@ -42,7 +45,8 @@ namespace Bussiness
             // third parameter is the speech engine to use
             textToSpeech = new TextToSpeech(context, this, "com.google.android.tts");
 
-            
+            //make sure to get the languages first
+            AvailableLanguage = GetLanguages();
 
             // set up the speech to use the default langauge
             // if a language is not available, then the default language is used.
@@ -88,7 +92,7 @@ namespace Bussiness
         {
             // change Android.Resource.Layout.SimpleSpinnerDropDownItem
             // in the future for a different usecase
-            var adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SimpleSpinnerDropDownItem, GetLanguages());
+            var adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SimpleSpinnerDropDownItem, AvailableLanguage);
 
             return adapter;
         }
@@ -97,12 +101,12 @@ namespace Bussiness
         /// this gets the available language
         /// </summary>
         /// <returns> available language in local device </returns>
-        public List<string> GetLanguages()
+        private List<string> GetLanguages()
         {
             var langAvailable = new List<string> { "Default" };
 
             // our spinner only wants to contain the languages supported by the tts and ignore the rest
-            var localesAvailable = Java.Util.Locale.GetAvailableLocales().ToList();
+            var localesAvailable = Locale.GetAvailableLocales().ToList();
             foreach (var locale in localesAvailable)
             {
                 LanguageAvailableResult res = textToSpeech.IsLanguageAvailable(locale);
@@ -125,13 +129,29 @@ namespace Bussiness
         }
 
         /// <summary>
+        /// directly set language using locale class
+        /// example: locale.Default
+        /// </summary>
+        /// <param name="l"> pass the locale class with language </param>
+        public void SetLanguage(Locale l)
+        {
+            lang = l;
+            textToSpeech.SetLanguage(lang);
+
+            // create intent to check the TTS has this language installed
+            var checkTTSIntent = new Intent();
+            checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
+            Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+        }
+
+        /// <summary>
         /// pass this in a spinner delegate or other you can think of
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public void SetLanguage(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            lang = Java.Util.Locale.GetAvailableLocales().FirstOrDefault(t => t.DisplayLanguage == GetLanguages()[(int)e.Id]);
+            lang = Java.Util.Locale.GetAvailableLocales().FirstOrDefault(t => t.DisplayLanguage == AvailableLanguage[(int)e.Id]);
             // create intent to check the TTS has this language installed
             var checkTTSIntent = new Intent();
             checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);

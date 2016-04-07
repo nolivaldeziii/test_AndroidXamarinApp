@@ -26,7 +26,7 @@ namespace test_AndroidXamarinApp
             var button_speak = FindViewById<Button>(Resource.Id.button_tts_speak);
             var edittext_tts_source = FindViewById<EditText>(Resource.Id.editText_tts_source_talk);
             var spinner_tts_lang_list = FindViewById<Spinner>(Resource.Id.spinner_tts_lang_list);
-
+            var button_tts_force = FindViewById<Button>(Resource.Id.button_tts_force);
             //initialize tts
             SimpleTTS = new Bussiness.SimpleAndroidTTS(this);
             spinner_tts_lang_list.Adapter = SimpleTTS.GetLanguagesAdapter();
@@ -35,6 +35,11 @@ namespace test_AndroidXamarinApp
             spinner_tts_lang_list.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
             {
                 SimpleTTS.SetLanguage(sender, e);
+            };
+
+            button_tts_force.Click += delegate
+            {
+                SimpleTTS.SetLanguage(Java.Util.Locale.Japanese);
             };
 
             //add functionality to speak button

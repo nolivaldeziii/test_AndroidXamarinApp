@@ -62,6 +62,9 @@ namespace test_AndroidXamarinApp
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050003
+			public const int button_tts_force = 2131034115;
+			
 			// aapt resource value: 0x7f050001
 			public const int button_tts_speak = 2131034113;
 			

@@ -75,9 +75,9 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bussiness\Bussiness.csproj">
+    <ProjectReference Include="..\Bussiness\SimpleTTS.csproj">
       <Project>{85537370-a565-4880-8663-e1e6776035c0}</Project>
-      <Name>Bussiness</Name>
+      <Name>SimpleTTS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
