@@ -24,16 +24,67 @@ using Android.Widget;
 
 namespace Bussiness
 {
+    public struct SimpleSettingsTTS
+    {
+        TextToSpeech TTS;
+        float rate, pitch;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x">set all settings to true or false</param>
+        public SimpleSettingsTTS(ref TextToSpeech tts)
+        {
+            TTS = tts;
+            //this disables checking if a language is installed
+            BypasslanguageCheck = false;
+
+            rate = pitch = 1;
+            Pitch = 1;
+            Rate = 1;
+        }
+
+        public bool BypasslanguageCheck;
+
+        // set the speed and pitch
+        // note: 1 sounds normal
+        public float Pitch {
+            set
+            {
+                pitch = value;
+                TTS.SetPitch(pitch);
+            }
+            get
+            {
+                return pitch;
+            }
+        }
+        public float Rate
+        {
+            set
+            {
+                rate = value;
+                TTS.SetSpeechRate(rate);
+            }
+            get
+            {
+                return rate;
+            }
+        }
+    }
+
     public class SimpleAndroidTTS : Java.Lang.Object, TextToSpeech.IOnInitListener
     {
-        TextToSpeech textToSpeech;
+        //initializations
+        private TextToSpeech textToSpeech;
         Context context;
         private readonly int MyCheckCode = 101, NeedLang = 103;
-        Java.Util.Locale lang;
+        private Locale lang;
 
-        List<string> AvailableLanguage;
+        private List<string> AvailableLanguage;
 
-        Activity Caller;//we'll usually set this as the one that calls this class;
+        private Activity Caller;//we'll usually set this as the one that calls this class;
+
+        public SimpleSettingsTTS Settings;
 
         public SimpleAndroidTTS(Activity a)
         {
@@ -45,18 +96,18 @@ namespace Bussiness
             // third parameter is the speech engine to use
             textToSpeech = new TextToSpeech(context, this, "com.google.android.tts");
 
+            //init tts settings
+            Settings = new SimpleSettingsTTS(ref textToSpeech);
+
             //make sure to get the languages first
             AvailableLanguage = GetLanguages();
 
+           
             // set up the speech to use the default langauge
             // if a language is not available, then the default language is used.
             lang = Java.Util.Locale.Default;
             textToSpeech.SetLanguage(lang);
-
-            // set the speed and pitch
-            // note: 1 sounds normal
-            textToSpeech.SetPitch(1);
-            textToSpeech.SetSpeechRate(1);
+       
         }
 
         public void Speak(string text)
@@ -137,11 +188,7 @@ namespace Bussiness
         {
             lang = l;
             textToSpeech.SetLanguage(lang);
-
-            // create intent to check the TTS has this language installed
-            var checkTTSIntent = new Intent();
-            checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
-            Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+            CheckInstalledVoices();
         }
 
         /// <summary>
@@ -152,10 +199,21 @@ namespace Bussiness
         public void SetLanguage(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             lang = Java.Util.Locale.GetAvailableLocales().FirstOrDefault(t => t.DisplayLanguage == AvailableLanguage[(int)e.Id]);
-            // create intent to check the TTS has this language installed
-            var checkTTSIntent = new Intent();
-            checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
-            Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+            CheckInstalledVoices();
+        }
+
+        /// <summary>
+        /// create intent to check the TTS has this language installed
+        /// </summary>
+        private void CheckInstalledVoices()
+        {
+            if (Settings.BypasslanguageCheck == false)
+            {
+                // create intent to check the TTS has this language installed
+                var checkTTSIntent = new Intent();
+                checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
+                Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+            }
         }
 
         public void OnInit([GeneratedEnum] OperationResult status)
