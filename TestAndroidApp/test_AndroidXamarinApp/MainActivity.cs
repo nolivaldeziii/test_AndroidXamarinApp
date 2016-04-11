@@ -13,7 +13,6 @@ namespace test_AndroidXamarinApp
     [Activity(Label = "test_AndroidXamarinApp", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        int count = 1;
         Bussiness.SimpleAndroidTTS SimpleTTS;
         protected override void OnCreate(Bundle bundle)
         {
@@ -27,9 +26,12 @@ namespace test_AndroidXamarinApp
             var edittext_tts_source = FindViewById<EditText>(Resource.Id.editText_tts_source_talk);
             var spinner_tts_lang_list = FindViewById<Spinner>(Resource.Id.spinner_tts_lang_list);
             var button_tts_force = FindViewById<Button>(Resource.Id.button_tts_force);
+            var button_ttsf_english = FindViewById<Button>(Resource.Id.button_ttsf_english);
             //initialize tts
             SimpleTTS = new Bussiness.SimpleAndroidTTS(this);
             spinner_tts_lang_list.Adapter = SimpleTTS.GetLanguagesAdapter();
+
+           // SimpleTTS.Settings.BypasslanguageCheck = true;
 
             //add set language
             spinner_tts_lang_list.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
@@ -40,7 +42,15 @@ namespace test_AndroidXamarinApp
             button_tts_force.Click += delegate
             {
                 SimpleTTS.SetLanguage(Java.Util.Locale.Japanese);
+                SimpleTTS.Speak("日本語を話します");
             };
+
+            button_ttsf_english.Click += delegate
+            {
+                SimpleTTS.SetLanguage(Java.Util.Locale.English);
+                SimpleTTS.Speak("I will now speak in english!");
+            };
+
 
             //add functionality to speak button
             button_speak.Click += delegate { SimpleTTS.Speak(edittext_tts_source.Text); };

@@ -68,6 +68,9 @@ namespace test_AndroidXamarinApp
 			// aapt resource value: 0x7f050001
 			public const int button_tts_speak = 2131034113;
 			
+			// aapt resource value: 0x7f050004
+			public const int button_ttsf_english = 2131034116;
+			
 			// aapt resource value: 0x7f050000
 			public const int editText_tts_source_talk = 2131034112;
 			
