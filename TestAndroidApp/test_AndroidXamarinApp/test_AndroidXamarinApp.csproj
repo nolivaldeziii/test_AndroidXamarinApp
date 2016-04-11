@@ -58,6 +58,9 @@
     <None Include="GettingStarted.Xamarin" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\layout1.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
     <None Include="TTS.axml">
       <SubType>AndroidResource</SubType>
     </None>

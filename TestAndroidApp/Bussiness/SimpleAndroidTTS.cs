@@ -27,6 +27,7 @@ namespace Bussiness
     public struct SimpleSettingsTTS
     {
         TextToSpeech TTS;
+        float rate, pitch;
         /// <summary>
         /// 
         /// </summary>
@@ -36,6 +37,8 @@ namespace Bussiness
             TTS = tts;
             //this disables checking if a language is installed
             BypasslanguageCheck = false;
+
+            rate = pitch = 1;
             Pitch = 1;
             Rate = 1;
         }
@@ -47,14 +50,24 @@ namespace Bussiness
         public float Pitch {
             set
             {
-                TTS.SetPitch(value);
+                pitch = value;
+                TTS.SetPitch(pitch);
+            }
+            get
+            {
+                return pitch;
             }
         }
         public float Rate
         {
             set
             {
-                TTS.SetSpeechRate(value);
+                rate = value;
+                TTS.SetSpeechRate(rate);
+            }
+            get
+            {
+                return rate;
             }
         }
     }
@@ -175,14 +188,7 @@ namespace Bussiness
         {
             lang = l;
             textToSpeech.SetLanguage(lang);
-
-            if (Settings.BypasslanguageCheck == false)
-            {
-                // create intent to check the TTS has this language installed
-                var checkTTSIntent = new Intent();
-                checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
-                Caller.StartActivityForResult(checkTTSIntent, NeedLang);
-            }
+            CheckInstalledVoices();
         }
 
         /// <summary>
@@ -193,10 +199,21 @@ namespace Bussiness
         public void SetLanguage(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             lang = Java.Util.Locale.GetAvailableLocales().FirstOrDefault(t => t.DisplayLanguage == AvailableLanguage[(int)e.Id]);
-            // create intent to check the TTS has this language installed
-            var checkTTSIntent = new Intent();
-            checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
-            Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+            CheckInstalledVoices();
+        }
+
+        /// <summary>
+        /// create intent to check the TTS has this language installed
+        /// </summary>
+        private void CheckInstalledVoices()
+        {
+            if (Settings.BypasslanguageCheck == false)
+            {
+                // create intent to check the TTS has this language installed
+                var checkTTSIntent = new Intent();
+                checkTTSIntent.SetAction(TextToSpeech.Engine.ActionCheckTtsData);
+                Caller.StartActivityForResult(checkTTSIntent, NeedLang);
+            }
         }
 
         public void OnInit([GeneratedEnum] OperationResult status)

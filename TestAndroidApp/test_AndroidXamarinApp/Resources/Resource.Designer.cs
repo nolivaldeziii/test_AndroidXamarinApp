@@ -62,20 +62,23 @@ namespace test_AndroidXamarinApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int button_tts_force = 2131034115;
-			
-			// aapt resource value: 0x7f050001
-			public const int button_tts_speak = 2131034113;
-			
 			// aapt resource value: 0x7f050004
-			public const int button_ttsf_english = 2131034116;
-			
-			// aapt resource value: 0x7f050000
-			public const int editText_tts_source_talk = 2131034112;
+			public const int button_tts_force = 2131034116;
 			
 			// aapt resource value: 0x7f050002
-			public const int spinner_tts_lang_list = 2131034114;
+			public const int button_tts_speak = 2131034114;
+			
+			// aapt resource value: 0x7f050005
+			public const int button_ttsf_english = 2131034117;
+			
+			// aapt resource value: 0x7f050001
+			public const int editText_tts_source_talk = 2131034113;
+			
+			// aapt resource value: 0x7f050003
+			public const int spinner_tts_lang_list = 2131034115;
+			
+			// aapt resource value: 0x7f050000
+			public const int textView1 = 2131034112;
 			
 			static Id()
 			{
@@ -91,7 +94,10 @@ namespace test_AndroidXamarinApp
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int layout1 = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{

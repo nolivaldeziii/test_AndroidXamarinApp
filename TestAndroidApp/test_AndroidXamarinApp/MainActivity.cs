@@ -31,7 +31,7 @@ namespace test_AndroidXamarinApp
             SimpleTTS = new Bussiness.SimpleAndroidTTS(this);
             spinner_tts_lang_list.Adapter = SimpleTTS.GetLanguagesAdapter();
 
-           // SimpleTTS.Settings.BypasslanguageCheck = true;
+            SimpleTTS.Settings.BypasslanguageCheck = true;
 
             //add set language
             spinner_tts_lang_list.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) =>
@@ -49,6 +49,8 @@ namespace test_AndroidXamarinApp
             {
                 SimpleTTS.SetLanguage(Java.Util.Locale.English);
                 SimpleTTS.Speak("I will now speak in english!");
+
+                SetContentView(Resource.Layout.layout1);
             };
 
 
